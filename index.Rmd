@@ -1,0 +1,9 @@
+---
+title: "Time Series Clustering"
+subtitle: "using feature-based methods"
+author: "Jason Teng, Vikram Srinivasan"
+site: bookdown::bookdown_site
+output:
+  bookdown::pdf_document2:
+    toc: yes
+---

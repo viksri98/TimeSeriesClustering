@@ -1,0 +1,3 @@
+# Introduction
+
+Clustering is one of the most intuitive applications of unsupervised learning
