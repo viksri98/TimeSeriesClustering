@@ -1,0 +1,4 @@
+# K-Means Clustering
+The foundational method in clustering is K-Means, an unsupervised equivalent to Linear Discriminant Analysis.
+We can describe the algorithm as follows:
+
