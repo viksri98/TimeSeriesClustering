@@ -44,3 +44,11 @@ matplot(t(df3[,2:141], type='l', col=df3$V1))
 matplot(t(df4[,2:141], type='l', col=df4$V1))
 matplot(t(df5[,2:141], type='l', col=df5$V1))
 
+c(rnorm(1400, B[,2], .1), rnorm(1400, B[,4], .1)) |> matrix(ncol=140, byrow=T) -> data
+matplot(t(data, type='l'))
+Bcoef <- matrix(0, dim(data)[1], n.knots)
+for(i in 1:dim(data)[1]){
+		Bcoef[i,] <- solve(t(B)%*%B)%*%t(B)%*%as.matrix(data[i,])
+}
+k <- kmeans(as.data.frame(Bcoef), 2, nstart=10)
+
