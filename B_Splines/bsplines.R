@@ -1,6 +1,7 @@
 library(splines)
 library(tidyverse)
 
+set.seed(10)
 n.knots <- 6
 x <- seq(0,1,length.out=100)
 knots <- seq(0,1,length.out=n.knots-2)
@@ -15,7 +16,7 @@ B%>%
   labs(title='B-Spline Basis with 6 knots and 3rd-Degree Polynomials')
 
 B <- bs(seq(0,1,length.out=140), knots=knots, degree=3)[,1:n.knots]
-df <- read.table("ECG5000_TRAIN.tsv")
+df <- rbind(read.table("ECG5000_TRAIN.tsv"), read.table("ECG5000_TEST.tsv"))
 par(mfrow=c(5,1))
 plot(t(df[100,2:141]), type='l', ylab="1")
 plot(t(df[2628,2:141]), type='l', ylab="2")
@@ -38,11 +39,13 @@ df4 <- df[df$cluster==4,]
 df5 <- df[df$cluster==5,]
 
 par(mfrow=c(5,1))
-matplot(t(df1[,2:141], type='l', col=df1$V1))
-matplot(t(df2[,2:141], type='l', col=df2$V1))
-matplot(t(df3[,2:141], type='l', col=df3$V1))
-matplot(t(df4[,2:141], type='l', col=df4$V1))
-matplot(t(df5[,2:141], type='l', col=df5$V1))
+matplot(t(df1[,2:141]), type='l', col=df1$V1)
+matplot(t(df2[,2:141]), type='l', col=df2$V1)
+matplot(t(df3[,2:141]), type='l', col=df3$V1)
+matplot(t(df4[,2:141]), type='l', col=df4$V1)
+matplot(t(df5[,2:141]), type='l', col=df5$V1)
+
+table(df$cluster, df$V1)
 
 c(rnorm(1400, B[,2], .1), rnorm(1400, B[,4], .1)) |> matrix(ncol=140, byrow=T) -> data
 matplot(t(data, type='l'))
