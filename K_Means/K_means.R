@@ -60,20 +60,34 @@ df_long_pred <- data.frame(
   value = as.vector(t(as.matrix(X)))
 )
 
-df_long_pred$correct_label <- ifelse(df_long_pred$correct, "Correct", "Incorrect")
+df_long_pred$cluster <- factor(clusters$cluster[df_long_pred$series_id])
 
-# ---- plot signals colored by clustering correctness ----
 ggplot(df_long_pred,
-       aes(x = time, y = value, group = series_id, color = correct_label)) +
+       aes(x = time, y = value, group = series_id, color = cluster)) +
   geom_line(alpha = 0.12, linewidth = 0.25) +
   facet_wrap(~ class, ncol = 5) +
-  scale_color_manual(values = c("Correct" = "forestgreen", "Incorrect" = "red3")) +
+  scale_color_brewer(palette = "Set1") +
   labs(
     title = "ECG5000 Signals by True Class",
     x = "Time",
     y = "Signal",
-    color = NULL
+    color = "Cluster"
   ) +
   theme_minimal(base_size = 10, base_family = "serif") +
-  theme(legend.position = "bottom")
-
+  theme(
+    panel.grid = element_blank(),
+    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.8),
+    strip.background = element_rect(fill = "white", color = "black"),
+    strip.text = element_text(size = 9, face = "bold", family = "serif"),
+    plot.title = element_text(size = 11, face = "bold", family = "serif", hjust = 0.5),
+    axis.title = element_text(size = 9, family = "serif"),
+    axis.text = element_text(size = 8, family = "serif"),
+    legend.position = "bottom",
+    legend.title = element_text(size = 9, face = "bold", family = "serif"),
+    legend.text = element_text(size = 8, family = "serif")
+  ) +
+  guides(
+    color = guide_legend(
+      override.aes = list(linewidth = 3, alpha = 1)
+    )
+  )
