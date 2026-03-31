@@ -46,15 +46,13 @@ ggplot(df_long, aes(x=time, y=value, group=series_id, color=cluster)) +
 				)
 		)
 
-ggsave("rnetclusters.jpg", width=5, height=5, units="in")
+ggsave("rnetclusters.jpg", width=6, height=3)
 
+df$cluster <- clusters
 df1 <- df[df$cluster==1,]
 df2 <- df[df$cluster==2,]
 
-par(mfrow=c(2,1))
-matplot(t(df1[,2:287]), type='l', col=df1$V1+1)
-matplot(t(df2[,2:287]), type='l', col=df2$V1+1)
-
 table(df$cluster, df$V1)
-
+library(fossil)
+adj.rand.index(df$cluster, df$V1)
 
